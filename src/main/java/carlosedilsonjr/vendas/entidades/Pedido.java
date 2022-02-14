@@ -25,13 +25,17 @@ public class Pedido {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
     private LocalDate dataPedido;
-    @Column(length = 20, precision = 2)
+    @Column(length = 20, precision = 20, scale = 2)
     private BigDecimal total;
 
     @OneToMany(mappedBy="pedido")
     private List<ItemPedido> itens;
 
     
+    @Override
+    public String toString() {
+        return "Pedido [dataPedido=" + dataPedido + ", id=" + id + ", total=" + total + "]";
+    }
     public List<ItemPedido> getItens() {
         return itens;
     }
