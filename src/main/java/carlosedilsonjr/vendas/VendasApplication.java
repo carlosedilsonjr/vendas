@@ -22,29 +22,31 @@ public class VendasApplication {
 	public CommandLineRunner init(@Autowired Clientes clientes){
 		return args -> {
 			System.out.println("Salvando Cliente");
-			clientes.salvar(new Cliente("Carlos"));
-			clientes.salvar(new Cliente("Claudia"));
+			clientes.save(new Cliente("Carlos"));
+			clientes.save(new Cliente("Claudia"));
 			
 			System.out.println("Listando Todos");
-			List<Cliente> todosClientes = clientes.obterTodos();
+			List<Cliente> todosClientes = clientes.findAll();
 			todosClientes.forEach(System.out::println);
 
 			System.out.println("Atualizando Nomes");
 			todosClientes.forEach(c -> {
 				c.setNome(c.getNome() + " Atualizado");
-				clientes.atualizar(c);
+				clientes.save(c);
 			});
 
 			System.out.println("Buscando Cla");
-			clientes.buscarNome("Cla").forEach(System.out::println);
+			clientes.findByNomeLike("Cla").forEach(System.out::println);
 
 			System.out.println("Listando Todos");
-			todosClientes = clientes.obterTodos();
+			todosClientes = clientes.findAll();
 			todosClientes.forEach(System.out::println);
 
 			System.out.println("Deletando e Listando");
-			clientes.deletar(1);
-			todosClientes = clientes.obterTodos();
+			clientes.findAll().forEach(c -> {
+				clientes.delete(c);
+			});
+			todosClientes = clientes.findAll();
 			todosClientes.forEach(System.out::println);
 		};
 	}
