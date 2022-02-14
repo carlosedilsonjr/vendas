@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Cliente")
 public class Cliente {
@@ -20,8 +22,19 @@ public class Cliente {
     private Integer id;
     @Column(name="nome", length = 100)
     private String nome;
+    @Column(name="cpf", length = 11)
+    private String cpf;
     @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
     private Set<Pedido> pedidos;
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 
 
     public Set<Pedido> getPedidos() {
