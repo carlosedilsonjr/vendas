@@ -8,5 +8,4 @@ import carlosedilsonjr.vendas.entidades.Cliente;
 public interface Clientes extends JpaRepository<Cliente, Integer> {
 
     List<Cliente> findByNomeLike(String nome);
-   
 }   

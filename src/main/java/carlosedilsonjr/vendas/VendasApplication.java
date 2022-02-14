@@ -28,26 +28,6 @@ public class VendasApplication {
 			System.out.println("Listando Todos");
 			List<Cliente> todosClientes = clientes.findAll();
 			todosClientes.forEach(System.out::println);
-
-			System.out.println("Atualizando Nomes");
-			todosClientes.forEach(c -> {
-				c.setNome(c.getNome() + " Atualizado");
-				clientes.save(c);
-			});
-
-			System.out.println("Buscando Cla");
-			clientes.findByNomeLike("Cla").forEach(System.out::println);
-
-			System.out.println("Listando Todos");
-			todosClientes = clientes.findAll();
-			todosClientes.forEach(System.out::println);
-
-			System.out.println("Deletando e Listando");
-			clientes.findAll().forEach(c -> {
-				clientes.delete(c);
-			});
-			todosClientes = clientes.findAll();
-			todosClientes.forEach(System.out::println);
 		};
 	}
 		public static void main(String[] args) {
