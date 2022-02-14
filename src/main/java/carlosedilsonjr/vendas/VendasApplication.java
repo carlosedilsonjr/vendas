@@ -21,22 +21,29 @@ public class VendasApplication {
 	@Bean
 	public CommandLineRunner init(@Autowired Clientes clientes){
 		return args -> {
+			System.out.println("Salvando Cliente");
 			clientes.salvar(new Cliente("Carlos"));
 			clientes.salvar(new Cliente("Claudia"));
 			
+			System.out.println("Listando Todos");
 			List<Cliente> todosClientes = clientes.obterTodos();
 			todosClientes.forEach(System.out::println);
 
+			System.out.println("Atualizando Nomes");
 			todosClientes.forEach(c -> {
 				c.setNome(c.getNome() + " Atualizado");
 				clientes.atualizar(c);
 			});
 
+			System.out.println("Buscando Cla");
+			clientes.buscarNome("Cla").forEach(System.out::println);
+
+			System.out.println("Listando Todos");
 			todosClientes = clientes.obterTodos();
 			todosClientes.forEach(System.out::println);
-			
-			clientes.deletar(2);
 
+			System.out.println("Deletando e Listando");
+			clientes.deletar(1);
 			todosClientes = clientes.obterTodos();
 			todosClientes.forEach(System.out::println);
 		};
