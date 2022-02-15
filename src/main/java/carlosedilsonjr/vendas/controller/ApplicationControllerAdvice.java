@@ -1,6 +1,10 @@
 package carlosedilsonjr.vendas.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -25,5 +29,17 @@ public class ApplicationControllerAdvice {
     public ApiErrors handlePedidoNFException(PedidoNotFoundException ex){
 
         return new ApiErrors(ex.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ApiErrors handleMethodNotValidException(MethodArgumentNotValidException ex){
+
+        List<String> errors =  ex.getBindingResult()
+            .getAllErrors()
+            .stream()
+            .map( e -> e.getDefaultMessage())
+            .collect(Collectors.toList());
+
+        return new ApiErrors(errors);
     }
 }
