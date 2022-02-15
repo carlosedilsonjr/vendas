@@ -1,4 +1,4 @@
-package carlosedilsonjr.vendas.service.impl;
+package carlosedilsonjr.vendas.service;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,7 +21,6 @@ import carlosedilsonjr.vendas.repositorio.Clientes;
 import carlosedilsonjr.vendas.repositorio.ItemsPedido;
 import carlosedilsonjr.vendas.repositorio.Pedidos;
 import carlosedilsonjr.vendas.repositorio.Produtos;
-import carlosedilsonjr.vendas.service.PedidoService;
 import lombok.RequiredArgsConstructor;
 
 @Service
