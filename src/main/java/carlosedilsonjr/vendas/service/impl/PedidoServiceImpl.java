@@ -2,6 +2,7 @@ package carlosedilsonjr.vendas.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import carlosedilsonjr.vendas.entidades.Cliente;
 import carlosedilsonjr.vendas.entidades.ItemPedido;
 import carlosedilsonjr.vendas.entidades.Pedido;
 import carlosedilsonjr.vendas.entidades.Produto;
+import carlosedilsonjr.vendas.enums.StatusPedido;
+import carlosedilsonjr.vendas.exception.PedidoNotFoundException;
 import carlosedilsonjr.vendas.exception.RegraNegocioException;
 import carlosedilsonjr.vendas.repositorio.Clientes;
 import carlosedilsonjr.vendas.repositorio.ItemsPedido;
@@ -41,6 +44,7 @@ public class PedidoServiceImpl implements PedidoService{
         pedido.setTotal(dto.getTotal());
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente);
+        pedido.setStatus(StatusPedido.REALIZADO);
 
         List<ItemPedido> itemsPedido = converterItems(pedido, dto.getItems());   
         rep.save(pedido);
@@ -66,5 +70,21 @@ public class PedidoServiceImpl implements PedidoService{
                         itemPedido.setProduto(produto);
                         return itemPedido;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Pedido> obterPedidoCompleto(Integer id) {
+        return rep.findByIdFetchItens(id);
+    }
+
+    @Override
+    @Transactional
+    public void attStatus(Integer id, StatusPedido status) {
+        
+        rep.findById(id)
+            .map( pedido -> {
+                pedido.setStatus(status);
+                return rep.save(pedido);
+            }).orElseThrow(() -> new PedidoNotFoundException());
     }
 }
